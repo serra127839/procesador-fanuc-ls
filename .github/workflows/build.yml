@@ -1,0 +1,29 @@
+name: Crear Ejecutable Windows
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+    
+    - name: Install dependencies
+      run: pip install pyinstaller
+    
+    - name: Create executable
+      run: pyinstaller --onefile --noconsole --name "Procesador_Fanuc_LS" process_fanuc_ls.py
+    
+    - name: Upload executable
+      uses: actions/upload-artifact@v4
+      with:
+        name: Procesador_Fanuc_LS
+        path: dist/Procesador_Fanuc_LS.exe
